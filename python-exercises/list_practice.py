@@ -1,0 +1,18 @@
+numbers = [12, 5, 8, 21, 5, 3, 18, 5]
+
+print(numbers)
+print(numbers[0],numbers[-1])
+print(numbers[1:5])
+print(numbers[::2])
+print(numbers[::-1])
+numbers.append(30)
+numbers.insert(2,10) #(index,value)
+numbers.remove(5)
+print(numbers.count(5))
+print(numbers.index(21))
+numbers.sort()
+numbers.sort(reverse=1)
+print(len(numbers))
+print(max(numbers))
+print(min(numbers))
+print(sum(numbers))
