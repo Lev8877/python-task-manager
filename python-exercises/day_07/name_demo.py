@@ -1,0 +1,1 @@
+print(f"name_demo: {__name__}")

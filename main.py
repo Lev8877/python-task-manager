@@ -1,4 +1,11 @@
-tasks = []
+from tasks import (
+    create_task,
+    delete_task,
+    get_all_stats,
+    show_tasks,
+    show_urgent_tasks,
+    update_task_completion,
+)
 
 def show_menu():
     print("\n       Меню\n")
@@ -10,230 +17,44 @@ def show_menu():
     print("6. Удалить задачу")
     print("0. Выход")
 
-def is_task_urgent(priority, hours, completion):
-    return (
-        priority == 5
-        or (priority >= 4 and hours <= 2)
-    ) and completion != 100
-
-def get_status(completion):
-    if completion == 0:
-        return "Задача не начата"
-    elif completion == 100:
-        return "Задача завершена"
-    else:
-        return "Задача в процессе"
-
-def create_task():
-    title = input("Введите название задачи: ")
-    description = input("Введите описание: ")
-    priority = int(input("Введите приоритет от 1 до 5: "))
-    hours = float(input("Введите время выполнения в часах: "))
-    completion = int(input("Введите процент выполнения: "))
-
-    if (
-        not title.strip()
-        or not 1 <= priority <= 5
-        or hours < 0
-        or not 0 <= completion <= 100
-    ):
-        print("Некорректные данные задачи")
-        return 
-
-    status = get_status(completion)
-
-    task = {
-        "title": title,
-        "description": description,
-        "priority": priority,
-        "hours": hours,
-        "completion": completion,
-        "is_important": priority >= 4,
-        "is_long": hours > 3,
-        "is_completed": completion == 100,
-        "is_urgent": is_task_urgent(priority,hours,completion),
-        "status": status
-    }
 
 
-    if task["is_urgent"]:
-        print("Внимание: задача срочная!")
 
-    if task["is_long"] and task["priority"] <= 2:
-        print("Задачу можно запланировать на потом")
+def main():
+    tasks = []
     
-    return task 
-    
-def show_tasks():
-    if not tasks:
-        print("Список пуст")
-        return 
-    print("\nВсе задачи:")
-    for index, task in enumerate(tasks, start=1):
-        print(
-            f"\n{index}. {task['title']}\n"
-            f"   Описание: {task['description']}\n"
-            f"   Приоритет: {task['priority']}\n"
-            f"   Время выполнения: {task['hours']:.2f} ч.\n"
-            f"   Выполнено: {task['completion']}%\n"
-            f"   Статус: {task['status']}\n"
-            f"   Важная: {task['is_important']}\n"
-            f"   Долгая: {task['is_long']}\n"
-            f"   Срочная: {task['is_urgent']}"
-        )
-    return 
+    while True:
+        show_menu()
 
-def get_all_stats():
-    if not tasks:
-        print("Список задач пуст")
-        return
-    
-    for index, task in enumerate(tasks, start=1):
-        print(
-            f"Процент выполнения {index} задачи: "
-            f"{task['completion']}% - {task['status']}"
-        )
+        command = int(input("\nВведите номер команды: "))
 
-def show_urgent_tasks():
-    if not tasks:
-        print("Список задач пуст")
-        return
+        if command == 1:
+            task = create_task()
 
-    urgent_found = False
+            if task is not None:
+                tasks.append(task)
+                print("Задача успешно добавлена")
+        elif command == 2:
+            show_tasks(tasks)
+        
+        elif command == 3:
+            get_all_stats(tasks)
 
-    print("\nСрочные задачи:")
+        elif command == 4:
+            show_urgent_tasks(tasks)
 
-    for index, task in enumerate(tasks, start=1):
-        if not task["is_urgent"]:
-            continue
+        elif command == 5:
+            update_task_completion(tasks)
 
-        print(
-            f"\n{index}. {task['title']}\n"
-            f"   Приоритет: {task['priority']}\n"
-            f"   Время выполнения: {task['hours']:.2f} ч.\n"
-            f"   Выполнено: {task['completion']}%\n"
-            f"   Статус: {task['status']}"
-        )
+        elif command == 6:
+            delete_task(tasks)
 
-        urgent_found = True
+        elif command == 0:
+            print("Программа завершена")
+            break
+        
+        else:
+            print("Неизвестная команда")
 
-    if not urgent_found:
-        print("Срочных задач нет")
-    return 
-
-def update_task_completion():
-    if not tasks:
-        print("Список задач пуст")
-        return
-
-    print("\nЗадачи:")
-
-    for index, task in enumerate(tasks, start=1):
-        print(
-            f"{index}. {task['title']} — "
-            f"{task['completion']}%, {task['status']}"
-        )
-
-    task_number = int(
-        input("\nВведите номер задачи для изменения: ")
-    )
-
-    while not 1 <= task_number <= len(tasks):
-        task_number = int(
-            input("Введите существующий номер задачи: ")
-        )
-
-    task_index = task_number - 1
-
-    new_completion = int(
-        input("Введите новый процент выполнения: ")
-    )
-
-    while not 0 <= new_completion <= 100:
-        new_completion = int(
-            input("Введите процент от 0 до 100: ")
-        )
-
-    tasks[task_index]["completion"] = new_completion
-    tasks[task_index]["is_completed"] = new_completion == 100
-
-    task = tasks[task_index]
-
-    task["is_urgent"] = is_task_urgent(
-        task["priority"],
-        task["hours"],
-        new_completion
-)
-
-    task["status"] = get_status(new_completion)
-
-    print("Процент выполнения успешно изменён")
-    print(f"Новый статус: {tasks[task_index]['status']}")
-
-    if tasks[task_index]["is_urgent"]:
-        print("Внимание: задача срочная!")
-    return
-
-def delete_task(): 
-    if not tasks:
-        print("Список задач пуст")
-        return 
-
-    print("\nЗадачи:")
-
-    for index, task in enumerate(tasks, start=1):
-        print(f"{index}. {task['title']}")
-
-    task_number = int(
-        input("\nВведите номер задачи для удаления: ")
-    )
-
-    while not 1 <= task_number <= len(tasks):
-        task_number = int(
-            input("Введите существующий номер задачи: ")
-        )
-
-    task_index = task_number - 1
-    removed_task = tasks.pop(task_index)
-
-    print(f"Задача «{removed_task['title']}» удалена")
-
-
-
-
-
-
-
-while True:
-    show_menu()
-
-    command = int(input("\nВведите номер команды: "))
-
-    if command == 1:
-        task = create_task()
-
-        if task is not None:
-            tasks.append(task)
-            print("Задача успешно добавлена")
-    elif command == 2:
-        show_tasks()
-    
-    elif command == 3:
-        get_all_stats()
-
-    elif command == 4:
-        show_urgent_tasks()
-
-    elif command == 5:
-        update_task_completion()
-
-    elif command == 6:
-        delete_task()
-
-    elif command == 0:
-        print("Программа завершена")
-        break
-    
-    else:
-        print("Неизвестная команда")
-
+if __name__ == "__main__":
+    main()
