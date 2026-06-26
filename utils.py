@@ -12,3 +12,11 @@ def get_status(completion):
     else:
         return "Задача в процессе"
     
+def read_command(text):
+    while True:
+        try:
+            number = int(input(text))
+        except ValueError:
+            print("Введите целое число")
+        else:
+            return number

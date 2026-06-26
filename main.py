@@ -9,6 +9,8 @@ from tasks import (
 
 from storage import save_tasks, load_tasks
 
+from utils import read_command
+
 def show_menu():
     print("\n       Меню\n")
     print("1. Добавить задачу")
@@ -28,7 +30,7 @@ def main():
     while True:
         show_menu()
 
-        command = int(input("\nВведите номер команды: "))
+        command = read_command("\nВведите номер команды: ")
 
         if command == 1:
             task = create_task()

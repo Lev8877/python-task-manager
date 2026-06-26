@@ -1,13 +1,13 @@
 from utils import is_task_urgent, get_status
 
-
+from utils import read_command
 
 def create_task():
     title = input("Введите название задачи: ")
     description = input("Введите описание: ")
-    priority = int(input("Введите приоритет от 1 до 5: "))
-    hours = float(input("Введите время выполнения в часах: "))
-    completion = int(input("Введите процент выполнения: "))
+    priority = read_command("Введите приоритет от 1 до 5: ") 
+    hours = read_command("Введите время выполнения в часах: ")
+    completion = read_command("Введите процент выполнения: ")
 
     if (
         not title.strip()
@@ -112,25 +112,17 @@ def update_task_completion(tasks):
             f"{task['completion']}%, {task['status']}"
         )
 
-    task_number = int(
-        input("\nВведите номер задачи для изменения: ")
-    )
+    task_number = read_command("\nВведите номер задачи для изменения: ") 
 
     while not 1 <= task_number <= len(tasks):
-        task_number = int(
-            input("Введите существующий номер задачи: ")
-        )
+        task_number = read_command("Введите существующий номер задачи: ")
 
     task_index = task_number - 1
 
-    new_completion = int(
-        input("Введите новый процент выполнения: ")
-    )
+    new_completion = read_command("Введите новый процент выполнения: ")
 
     while not 0 <= new_completion <= 100:
-        new_completion = int(
-            input("Введите процент от 0 до 100: ")
-        )
+        new_completion = read_command("Введите процент от 0 до 100: ")
 
     tasks[task_index]["completion"] = new_completion
     tasks[task_index]["is_completed"] = new_completion == 100
@@ -162,15 +154,10 @@ def delete_task(tasks):
     for index, task in enumerate(tasks, start=1):
         print(f"{index}. {task['title']}")
 
-    task_number = int(
-        input("\nВведите номер задачи для удаления: ")
-    )
+    task_number = read_command("\nВведите номер задачи для удаления: ")
 
     while not 1 <= task_number <= len(tasks):
-        task_number = int(
-            input("Введите существующий номер задачи: ")
-        )
-
+        task_number = read_command("Введите существующий номер задачи: ")
     task_index = task_number - 1
     removed_task = tasks.pop(task_index)
 
