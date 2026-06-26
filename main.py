@@ -7,6 +7,8 @@ from tasks import (
     update_task_completion,
 )
 
+from storage import save_tasks, load_tasks
+
 def show_menu():
     print("\n       Меню\n")
     print("1. Добавить задачу")
@@ -21,7 +23,7 @@ def show_menu():
 
 
 def main():
-    tasks = []
+    tasks = load_tasks()
     
     while True:
         show_menu()
@@ -33,6 +35,8 @@ def main():
 
             if task is not None:
                 tasks.append(task)
+                save_tasks(tasks)
+                
                 print("Задача успешно добавлена")
         elif command == 2:
             show_tasks(tasks)
@@ -45,9 +49,11 @@ def main():
 
         elif command == 5:
             update_task_completion(tasks)
+            save_tasks(tasks)
 
         elif command == 6:
             delete_task(tasks)
+            save_tasks(tasks)
 
         elif command == 0:
             print("Программа завершена")
