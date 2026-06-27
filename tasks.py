@@ -163,3 +163,5 @@ def delete_task(tasks):
 
     print(f"Задача «{removed_task['title']}» удалена")
 
+def get_completed_tasks(tasks):
+    return [task for task in tasks if task["completion"] == 100]

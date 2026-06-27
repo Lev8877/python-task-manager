@@ -1,1 +1,50 @@
-[]
+[
+    {
+        "title": "ываваы",
+        "description": "авыываыв",
+        "priority": 5,
+        "hours": 5,
+        "completion": 5,
+        "is_important": true,
+        "is_long": true,
+        "is_completed": false,
+        "is_urgent": true,
+        "status": "Задача в процессе"
+    },
+    {
+        "title": "авваы",
+        "description": "аывыав",
+        "priority": 5,
+        "hours": 5,
+        "completion": 100,
+        "is_important": true,
+        "is_long": true,
+        "is_completed": true,
+        "is_urgent": false,
+        "status": "Задача завершена"
+    },
+    {
+        "title": "vfsdf",
+        "description": "fdsdf",
+        "priority": 5,
+        "hours": 5,
+        "completion": 100,
+        "is_important": true,
+        "is_long": true,
+        "is_completed": true,
+        "is_urgent": false,
+        "status": "Задача завершена"
+    },
+    {
+        "title": "fsdsdf",
+        "description": "fdsfds",
+        "priority": 5,
+        "hours": 5,
+        "completion": 100,
+        "is_important": true,
+        "is_long": true,
+        "is_completed": true,
+        "is_urgent": false,
+        "status": "Задача завершена"
+    }
+]

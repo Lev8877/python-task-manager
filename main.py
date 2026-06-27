@@ -5,6 +5,7 @@ from tasks import (
     show_tasks,
     show_urgent_tasks,
     update_task_completion,
+    get_completed_tasks
 )
 
 from storage import save_tasks, load_tasks
@@ -18,7 +19,8 @@ def show_menu():
     print("3. Показать статусы задач")
     print("4. Показать срочные задачи")
     print("5. Изменить процент выполнения")
-    print("6. Удалить задачу")
+    print("6. Показать все выполненные задачи")
+    print("7. Удалить задачу")
     print("0. Выход")
 
 
@@ -54,6 +56,9 @@ def main():
             save_tasks(tasks)
 
         elif command == 6:
+            show_tasks(get_completed_tasks(tasks))
+
+        elif command == 7:
             delete_task(tasks)
             save_tasks(tasks)
 
