@@ -7,9 +7,7 @@ from tasks import (
     update_task_completion,
     get_completed_tasks
 )
-
 from storage import save_tasks, load_tasks
-
 from utils import read_command
 
 def show_menu():
